@@ -11,7 +11,7 @@ def calibration(tick, pixel):
         elif pixel.strip_offset % 10 == 0:
                 base_color = colorsys.hsv_to_rgb(pixel.strip / float(pipeline.strips), 1, 1)
         else:
-                base_color = colorsys.hsv_to_rgb(pixel.strip / float(pipeline.strips), 0,5, 1)
+                base_color = colorsys.hsv_to_rgb(pixel.strip / float(pipeline.strips), 0.5, 1)
         pixel.color = base_color
 
 ourPipeline = [pipeline.Fragment(calibration)]
