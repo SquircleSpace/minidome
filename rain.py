@@ -14,7 +14,7 @@ class Cycle(pipeline.Shader):
                 self.target_strip = 0
                 self.color = (1, 1, 1)
 
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 fade_progress = tick % 60
                 fade_distance = fade_progress / 59.0
                 if fade_progress == 0:
@@ -37,7 +37,7 @@ class Raindrop(pipeline.Shader):
                 self.position = random.randint(0, pipeline.strip_length - 1)
                 self.color = colorsys.hsv_to_rgb(random.random(), .1, .5)
 
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 self.position += 1
                 if self.position == pipeline.strip_length:
                         self.strip = random.randint(0, pipeline.strips - 1)
@@ -67,7 +67,7 @@ class Lightning(pipeline.Shader):
                 self.strength = 0
                 self.delay = random.randint(61, 500)
 
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 self.delay -= 1
                 if self.delay < 0:
                         self.reset()

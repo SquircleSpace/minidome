@@ -14,7 +14,7 @@ class Strobe(pipeline.Shader):
         self.range_low = (random.randint(0, 3)*12)
         self.time = 20
         
-    def pre_frame(self, tick):
+    def pre_frame(self, tick, pixels):
         self.time -=1
         if self.time < 0:
             self.reset()
@@ -35,7 +35,7 @@ class Spin(pipeline.Shader):
         self.current_strip = (self.current_strip + 1) % pipeline.strips
         self.time = 20 / pipeline.strips
 
-    def pre_frame(self, tick):
+    def pre_frame(self, tick, pixels):
         self.time -= 1
         if self.time < 0:
             self.reset()
@@ -47,7 +47,7 @@ class Spin(pipeline.Shader):
             return pixel.color[i]*.7
         pixel.color = tuple(compute_color(c) for c in xrange(3))
 
-ourPipeline = [Strobe()] + [Spin()]
+ourPipeline = [Strobe(), Spin()]
 
 if __name__ ==  '__main__':
     pipeline.run(pipeline.pixels, ourPipeline, .01)

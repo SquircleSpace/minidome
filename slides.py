@@ -11,7 +11,7 @@ class Laser(pipeline.Shader):
                 self.down = random.randint(0, 1) == 1
                 self.speed = random.randint(200, 500)
 
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 tick += self.random
                 self.laser_number = tick / self.speed
                 self.laser_progress = (tick % self.speed) / 61.0

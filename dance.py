@@ -19,7 +19,7 @@ class Dancer(pipeline.Shader):
                 else:
                         self.direction = -1
 
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 self.position += self.direction
                 if self.position >= pipeline.strip_length:
                         self.position = pipeline.strip_length

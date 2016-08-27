@@ -13,7 +13,7 @@ class Flash(pipeline.Shader):
         self.main_color = colorsys.hsv_to_rgb(random.random(), 1, 1)
         self.time = 105
 
-    def pre_frame(self, tick):
+    def pre_frame(self, tick, pixels):
         self.time -= 1
         if self.time < 0:
             self.reset()

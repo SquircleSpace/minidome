@@ -23,7 +23,7 @@ class Ring(pipeline.Shader):
                         self.direction = -1
                 self.color = colorsys.hsv_to_rgb(random.random(), 1, 1)
 
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 if self.countdown > 0:
                         self.countdown -= 1
                         return
@@ -37,7 +37,7 @@ class Ring(pipeline.Shader):
                 if pixel.strip_offset == self.position:
                         pixel.color = self.color
 
-        def post_frame(self, tick):
+        def post_frame(self, tick, pixel):
                 if self.countdown < 0:
                         self.position += self.direction
                         if self.position < 0 or self.position >= pipeline.strip_length:

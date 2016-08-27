@@ -28,20 +28,20 @@ def offset_to_strip_offset(offset):
         return offset % strip_length
 
 class PixelInfo(object):
-        def __init__(self, offset, color):
+        def __init__(self, offset):
                 self.strip = offset_to_strip(offset)
                 self.distance = offset_to_distance(offset)
                 self.strip_offset = offset_to_strip_offset(offset)
-                self.color = color
+                self.color = (0, 0, 0)
 
-pixels = [PixelInfo(off, (0, 0, 0)) for off in xrange(strips * strip_length)]
+pixels = [PixelInfo(off) for off in xrange(strips * strip_length)]
 
 class Shader(object):
         def fragment(self, tick, pixel_info):
                 pass
-        def pre_frame(self, tick):
+        def pre_frame(self, tick, pixels):
                 pass
-        def post_frame(self, tick):
+        def post_frame(self, tick, pixels):
                 pass
 
 class Fragment(Shader):
@@ -53,12 +53,12 @@ class Fragment(Shader):
 
 def run_pipeline(pixels, pipeline, tick):
         for shader in pipeline:
-                shader.pre_frame(tick)
+                shader.pre_frame(tick, pixels)
         for pixel in pixels:
                 for shader in pipeline:
                         shader.fragment(tick, pixel)
         for shader in pipeline:
-                shader.post_frame(tick)
+                shader.post_frame(tick, pixels)
 
 def draw_into_buffer(pixels, buffer):
         for pixel in pixels:
@@ -68,12 +68,9 @@ def draw_into_buffer(pixels, buffer):
                 for channel in xrange(3):
                         buffer[x,y,channel] = rgb[channel]
 
-simulate = False
-
-if simulate:
-        simulation = numpy.zeros((strips, strip_length, 3), numpy.uint8)
-
-def run(pixels, pipeline, sleep_time=.01):
+def run(pixels, pipeline, sleep_time=.01, simulate=False):
+        if simulate:
+                simulation = numpy.zeros((strips, strip_length, 3), numpy.uint8)
         tick = 0
         while True:
                 tick += 1
